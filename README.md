@@ -1,4 +1,9 @@
-# TabletDriver
+# TabletDriver w. area randomizer hack
+
+This is a fork of hawku/TabletDriver that over time randomizes your area between some bounds. Check back here in a while, I'll add a GUI and some stuff to it for more convenient usage.
+
+Original readme follows:
+#
 
 This is a low latency graphics tablet driver that is meant to be used with rhythm game [osu!](https://osu.ppy.sh/home)
 
