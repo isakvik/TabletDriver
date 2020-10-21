@@ -1436,11 +1436,19 @@
 
         <!-- Restart Driver -->
         <Button Name="buttonRestartDriver" 
-                Margin="0,5"
+                Margin="2,5"
                 Padding="10,5"
                 Click="RestartDriverClick"
                 ToolTip="Restarts the TabletDriverService">
           Restart Driver
+        </Button>
+          
+        <Button Name="buttonRestartRandomizer" 
+                Margin="0,5"
+                Padding="10,5"
+                Click="RestartRandomizerClick"
+                ToolTip="Restarts the TabletRandomizerService">
+          Restart Randomizer
         </Button>
 
         <!-- Automatic restart -->

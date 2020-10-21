@@ -93,6 +93,12 @@ namespace TabletDriverGUI
             UpdateCorners();
         }
 
+        public Area(Area area) : this()
+        {
+            this.Set(area);
+            UpdateCorners();
+        }
+
         //
         // Copy values from an another area
         //
@@ -237,6 +243,15 @@ namespace TabletDriverGUI
                     Utils.GetNumberString(Width) + "," +
                     Utils.GetNumberString(Height) +
                 "]";
+        }
+
+        public static Area operator *(Area area, double multiplier)
+        {
+            return new Area(area.Width * multiplier, area.Height * multiplier, area.X, area.Y);
+        }
+        public static Area operator *(double multiplier, Area area)
+        {
+            return new Area(area.Width * multiplier, area.Height * multiplier, area.X, area.Y);
         }
 
     }

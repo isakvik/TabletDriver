@@ -80,6 +80,7 @@ namespace TabletDriverGUI
         private Timer timerWatchdog;
         private bool running;
         private readonly object locker = new object();
+        private AreaRandomizer randomizer;
 
         public bool DoNotKill;
 
@@ -104,7 +105,7 @@ namespace TabletDriverGUI
         //
         // Constructor
         //
-        public TabletDriver(string servicePath)
+        public TabletDriver(string servicePath, AreaRandomizer randomizer)
         {
             this.servicePath = servicePath;
             processService = null;
@@ -139,7 +140,7 @@ namespace TabletDriverGUI
             // Invoke driver started event
             Started?.Invoke(this, new EventArgs());
 
-
+            this.randomizer = randomizer;
         }
 
 
@@ -576,6 +577,8 @@ namespace TabletDriverGUI
                     IsRunning = true;
                     timerWatchdog.Start();
 
+                    randomizer.Start();
+
                     // Named pipes
                     pipeInput.Start();
                     pipeOutput.Start();
@@ -606,6 +609,8 @@ namespace TabletDriverGUI
             if (!IsRunning) return;
             timerWatchdog.Stop();
             IsRunning = false;
+
+            randomizer.Stop();
 
             // Stop named pipe clients
             pipeInput.Stop();

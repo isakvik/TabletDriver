@@ -27,6 +27,8 @@ namespace TabletDriverGUI
 
                 // Console timer
                 timerConsoleUpdate.Start();
+                // Area timer
+                timerAreaUpdate.Start();
 
                 // Pen position timer
                 //timerUpdatePenPositions.Start();
@@ -62,8 +64,10 @@ namespace TabletDriverGUI
 
             //timerUpdatePenPositions.Stop();
 
+            randomizer.Stop();
             driver.Stop();
             timerConsoleUpdate.Stop();
+            timerAreaUpdate.Stop();
         }
 
 
@@ -710,6 +714,15 @@ namespace TabletDriverGUI
                 StopDriver();
             }
             StartDriver();
+        }
+
+        //
+        // Restart Randomizer button click
+        //
+        private void RestartRandomizerClick(object sender, RoutedEventArgs e)
+        {
+            randomizer.Stop();
+            randomizer.Start();
         }
 
 

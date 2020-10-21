@@ -43,6 +43,7 @@ namespace TabletDriverGUI
         private DispatcherTimer timerStatusbar;
         private DispatcherTimer timerRestart;
         private DispatcherTimer timerConsoleUpdate;
+        private DispatcherTimer timerAreaUpdate;
         private DispatcherTimer timerUpdatePenPositions;
 
         // Config
@@ -53,6 +54,10 @@ namespace TabletDriverGUI
 
         // Measurement to area
         private bool isEnabledMeasurementToArea = false;
+
+
+        // Randomizer
+        private AreaRandomizer randomizer;
 
         //
         // Constructor
@@ -106,8 +111,9 @@ namespace TabletDriverGUI
             // Init setting commands list
             settingCommands = new List<string>();
 
+            randomizer = new AreaRandomizer();
             // Init tablet driver
-            driver = new TabletDriver("TabletDriverService.exe");
+            driver = new TabletDriver("TabletDriverService.exe", randomizer);
             driverCommands = new Dictionary<string, string>();
             driver.MessageReceived += OnDriverMessageReceived;
             driver.ErrorReceived += OnDriverErrorReceived;
@@ -115,7 +121,6 @@ namespace TabletDriverGUI
             driver.Started += OnDriverStarted;
             driver.Stopped += OnDriverStopped;
             running = false;
-
 
             // Restart timer
             timerRestart = new DispatcherTimer
@@ -137,6 +142,13 @@ namespace TabletDriverGUI
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
             };
             timerConsoleUpdate.Tick += TimerConsoleUpdate_Tick;
+
+            // Timer console update
+            timerAreaUpdate = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 200)
+            };
+            timerAreaUpdate.Tick += TimerAreaUpdate_Tick;
 
             // Tooltip timeout
             ToolTipService.ShowDurationProperty.OverrideMetadata(
@@ -186,12 +198,15 @@ namespace TabletDriverGUI
             // Hide notify icon
             notifyIcon.Visible = false;
 
-            // Write configuration to XML file
-            try { config.Write(configFilename); }
-            catch (Exception) { }
-
             // Stop driver
             StopDriver();
+
+            // Write configuration to XML file
+            try { 
+                if (randomizer.run)
+                    config.Write(configFilename); 
+            }
+            catch (Exception) { }
         }
 
         // Window loaded -> Start driver
@@ -222,6 +237,8 @@ namespace TabletDriverGUI
             // Initialize configuration
             InitializeConfiguration();
 
+            // Initialize randomizer
+            randomizer.Initialize(driver, config);
 
             // Hide the window if the GUI is started as minimized
             if (WindowState == WindowState.Minimized)
@@ -411,6 +428,7 @@ namespace TabletDriverGUI
         void NotifyExit(object sender, EventArgs e)
         {
             IsRealExit = true;
+            StopDriver();
             Application.Current.Shutdown();
         }
 

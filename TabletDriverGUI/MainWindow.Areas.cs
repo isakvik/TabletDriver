@@ -81,6 +81,20 @@ namespace TabletDriverGUI
 
 
         //
+        // Area update timer tick (randomizer)
+        //
+        private void TimerAreaUpdate_Tick(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedItem == tabArea && WindowState != WindowState.Minimized)
+            {
+                UpdateTabletAreaCanvas();
+                UpdateAreaInformation();
+            }
+            textStatus.Text = "Randomized area: " + randomizer.currentArea.ToString();
+        }
+
+
+        //
         // Get desktop size
         //
         System.Drawing.Rectangle GetVirtualDesktopSize()
