@@ -577,8 +577,6 @@ namespace TabletDriverGUI
                     IsRunning = true;
                     timerWatchdog.Start();
 
-                    randomizer.Start();
-
                     // Named pipes
                     pipeInput.Start();
                     pipeOutput.Start();

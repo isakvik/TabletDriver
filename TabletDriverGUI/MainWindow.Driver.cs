@@ -716,15 +716,6 @@ namespace TabletDriverGUI
             StartDriver();
         }
 
-        //
-        // Restart Randomizer button click
-        //
-        private void RestartRandomizerClick(object sender, RoutedEventArgs e)
-        {
-            randomizer.Stop();
-            randomizer.Start();
-        }
-
 
     }
 }

@@ -35,6 +35,10 @@ namespace TabletDriverGUI
         private Matrix matrixTabletAreaToCanvas;
         private Matrix matrixCanvasToTabletArea;
 
+        private Polygon polygonRandomizerTabletFullArea;
+        private Polygon polygonRandomizerTabletArea;
+        private Polygon polygonRandomizerAreaArrow;
+
         // Area colors
         private Brush[] brushBackgrounds;
         private Brush brushStrokeSelected;
@@ -77,21 +81,6 @@ namespace TabletDriverGUI
             }
         }
         MouseDrag mouseDrag;
-
-
-
-        //
-        // Area update timer tick (randomizer)
-        //
-        private void TimerAreaUpdate_Tick(object sender, EventArgs e)
-        {
-            if (tabControl.SelectedItem == tabArea && WindowState != WindowState.Minimized)
-            {
-                UpdateTabletAreaCanvas();
-                UpdateAreaInformation();
-            }
-            textStatus.Text = "Randomized area: " + randomizer.currentArea.ToString();
-        }
 
 
         //
@@ -322,7 +311,21 @@ namespace TabletDriverGUI
                     new Point(0,0)
                 }
             };
+            polygonRandomizerTabletFullArea = new Polygon
+            {
+                Stroke = new SolidColorBrush(Color.FromRgb(155, 155, 155)),
+                StrokeThickness = 2.0,
+                Points = new PointCollection
+                {
+                    new Point(0,0),
+                    new Point(0,0),
+                    new Point(0,0),
+                    new Point(0,0)
+                }
+            };
+
             canvasTabletArea.Children.Add(polygonTabletFullArea);
+            canvasRandomizerArea.Children.Add(polygonRandomizerTabletFullArea);
 
             //
             // Tablet area polygons
@@ -347,6 +350,21 @@ namespace TabletDriverGUI
                 };
                 canvasTabletArea.Children.Add(polygonTabletAreas[i]);
             }
+            polygonRandomizerTabletArea = new Polygon
+            {
+                Stroke = Brushes.White,
+                StrokeLineJoin = PenLineJoin.Round,
+                Fill = brushBackgrounds[1],
+                StrokeThickness = 1.5,
+                Points = new PointCollection
+                {
+                    new Point(0,0),
+                    new Point(0,0),
+                    new Point(0,0),
+                    new Point(0,0)
+                },
+            };
+            canvasRandomizerArea.Children.Add(polygonRandomizerTabletArea);
 
 
             //
@@ -364,6 +382,18 @@ namespace TabletDriverGUI
                 },
             };
             canvasTabletArea.Children.Add(polygonTabletAreaArrow);
+
+            polygonRandomizerAreaArrow = new Polygon
+            {
+                Fill = new SolidColorBrush(Color.FromArgb(50, 240, 240, 240)),
+                Points = new PointCollection
+                {
+                    new Point(0,0),
+                    new Point(0,0),
+                    new Point(0,0)
+                },
+            };
+            canvasRandomizerArea.Children.Add(polygonRandomizerAreaArrow);
 
             //
             // Tablet area pen position
@@ -672,6 +702,7 @@ namespace TabletDriverGUI
                 p.X += config.TabletFullArea.X * scale + offsetX;
                 p.Y += config.TabletFullArea.Y * scale + offsetY;
                 polygonTabletFullArea.Points[i] = p;
+                polygonRandomizerTabletFullArea.Points[i] = p;
             }
 
 
@@ -743,6 +774,7 @@ namespace TabletDriverGUI
 
 
             canvasTabletArea.InvalidateVisual();
+            canvasRandomizerArea.InvalidateVisual();
 
         }
 

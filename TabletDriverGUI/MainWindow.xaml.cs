@@ -56,9 +56,6 @@ namespace TabletDriverGUI
         private bool isEnabledMeasurementToArea = false;
 
 
-        // Randomizer
-        private AreaRandomizer randomizer;
-
         //
         // Constructor
         //
@@ -143,7 +140,7 @@ namespace TabletDriverGUI
             };
             timerConsoleUpdate.Tick += TimerConsoleUpdate_Tick;
 
-            // Timer console update
+            // Timer randomizer area update
             timerAreaUpdate = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 0, 0, 200)
@@ -203,8 +200,7 @@ namespace TabletDriverGUI
 
             // Write configuration to XML file
             try { 
-                if (randomizer.run)
-                    config.Write(configFilename); 
+                config.Write(configFilename); 
             }
             catch (Exception) { }
         }

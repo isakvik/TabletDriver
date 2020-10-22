@@ -58,9 +58,14 @@ namespace TabletDriverGUI
 
         public void Stop()
         {
+            if (!run) return;
+
             run = false;
             CalculateAreaThread.Interrupt();
-            //UpdateArea(initialArea);
+
+            currentArea.Set(initialArea);
+            config.TabletArea?.Set(initialArea);
+            config.TabletAreas[0]?.Set(initialArea);
         }
 
         public void RunRandomizer()
@@ -107,11 +112,11 @@ namespace TabletDriverGUI
         //
 
         // move to own configuration tab eventually...
-        const int TIMESTEP_MIN = 15000;
-        const int TIMESTEP_MAX = 30000;
+        const int TIMESTEP_MIN = 150;
+        const int TIMESTEP_MAX = 300;
         const double AREA_MULTIPLIER_MIN = 0.5;
         Area AREA_MAXIMUM_BOUNDS = new Area(115.555555555, 80, 0, 0);
-        const double AREA_CHANGE_STD_DEV = 0.05;
+        const double AREA_CHANGE_STD_DEV = 0.1;
 
         private Area CalculateNewArea(long deltaTime)
         {

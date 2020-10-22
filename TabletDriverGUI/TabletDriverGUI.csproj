@@ -81,6 +81,7 @@
     </ApplicationDefinition>
     <Compile Include="AreaRandomizer.cs" />
     <Compile Include="MainWindow.Areas.cs" />
+    <Compile Include="MainWindow.Randomizer.cs" />
     <Compile Include="MultimediaTimer.cs" />
     <Compile Include="NamedPipeClient.cs" />
     <Compile Include="WindowTabletViewSettings.xaml.cs">
