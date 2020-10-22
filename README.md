@@ -1,6 +1,7 @@
 # TabletDriver w. area randomizer hack
 
-This is a fork of hawku/TabletDriver that over time randomizes your area between some bounds. Check back here in a while, I'll add a GUI and some stuff to it for more convenient usage.
+This is a fork of hawku/TabletDriver that over time randomizes your area between some bounds. Includes its own tab in the driver UI. 
+Check back here in a while, I'll add some stuff to it for more convenient usage.
 
 Original readme follows:
 #
