@@ -535,5 +535,9 @@ namespace TabletDriverGUI
             SetStatus("Event: " + e.RoutedEvent.ToString() + ", Mouse at " + ((UIElement)sender).ToString() + "! " + e.ChangedButton.ToString() + " " + e.ButtonState.ToString());
         }
 
+        private void textBoxRandomizer_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

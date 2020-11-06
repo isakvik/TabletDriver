@@ -352,7 +352,7 @@ namespace TabletDriverGUI
             }
             polygonRandomizerTabletArea = new Polygon
             {
-                Stroke = Brushes.White,
+                Stroke = Brushes.Black,
                 StrokeLineJoin = PenLineJoin.Round,
                 Fill = brushBackgrounds[1],
                 StrokeThickness = 1.5,
@@ -385,7 +385,7 @@ namespace TabletDriverGUI
 
             polygonRandomizerAreaArrow = new Polygon
             {
-                Fill = new SolidColorBrush(Color.FromArgb(50, 240, 240, 240)),
+                Fill = new SolidColorBrush(Color.FromArgb(50, 20, 20, 20)),
                 Points = new PointCollection
                 {
                     new Point(0,0),

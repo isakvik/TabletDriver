@@ -360,6 +360,19 @@ namespace TabletDriverGUI
             checkBoxForceAspect.IsChecked = config.ForceAspectRatio;
 
 
+            textBoxRandomizerWidthMin.Text = Utils.GetNumberString(config.RandomMinWidth);
+            textBoxRandomizerWidthMax.Text = Utils.GetNumberString(config.RandomMaxWidth);
+            textBoxRandomizerHeightMin.Text = Utils.GetNumberString(config.RandomMinHeight);
+            textBoxRandomizerHeightMax.Text = Utils.GetNumberString(config.RandomMaxHeight);
+
+            textBoxRandomizerTimeMin.Text = Utils.GetNumberString(config.RandomTimestepMin);
+            textBoxRandomizerTimeMax.Text = Utils.GetNumberString(config.RandomTimestepMax);
+            textBoxRandomizerStdDev.Text = Utils.GetNumberString(config.RandomStrength);
+
+            checkBoxRandomizerForceProportions.IsChecked = config.RandomForceProportions;
+            checkBoxDarkMode.IsChecked = config.RandomDarkMode;
+
+
             //
             // Positioning & Mode
             //
@@ -616,6 +629,16 @@ namespace TabletDriverGUI
                 config.SelectedTabletArea.Y = value;
             if (Utils.ParseNumber(textTabletAreaRotation.Text, out value))
                 config.TabletAreas[0].Rotation = value;
+
+            config.RandomMinWidth = AreaRandomizer.areaBoundsMin.Width;
+            config.RandomMinHeight = AreaRandomizer.areaBoundsMin.Height;
+            config.RandomMaxWidth = AreaRandomizer.areaBoundsMax.Width;
+            config.RandomMaxHeight = AreaRandomizer.areaBoundsMax.Height;
+
+            config.RandomTimestepMin = AreaRandomizer.timestepMin / 1000; 
+            config.RandomTimestepMax = AreaRandomizer.timestepMax / 1000;
+            config.RandomStrength = AreaRandomizer.areaChangeStdDev * 100.0;
+
 
             // Update secondary area rotations
             for (int i = 1; i < config.GetAreaCount(); i++)

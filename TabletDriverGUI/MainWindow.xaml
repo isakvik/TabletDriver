@@ -1414,56 +1414,160 @@
 
       </TabItem>
 
-            <TabItem Name="tabRandomizer" Margin="10,0,-10,0" Padding="10,5">
-                <TabItem.Header>
-                    <TextBlock FontSize="14" Foreground="#600" FontWeight="Bold">
-                        <AccessText Text="_Randomizer"/>
-                    </TextBlock>
-                </TabItem.Header>
-                <Grid Margin="0,2,0,0"
-                      Background="Black">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+      <TabItem Name="tabRandomizer" Margin="10,0,-10,0" Padding="10,5">
+        <TabItem.Header>
+          <TextBlock FontSize="14" Foreground="#600" FontWeight="Bold">
+            <AccessText Text="_Randomizer"/>
+          </TextBlock>
+        </TabItem.Header>
+        <Grid Margin="0,2,0,0"
+              Width="760"
+              Name="gridRandomizerSettings">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
 
-                    <CheckBox Grid.Column="1" Name="checkBoxEnableRandomizer"
-                      Height="16"
-                      Margin="5,1,0,0"
-                      Checked="RandomizerStatusChanged"
-                      Foreground="White"
-                      Unchecked="RandomizerStatusChanged">
-                        Enable randomizer
-                    </CheckBox>
-                    <!-- Tablet area canvas -->
-                    <StackPanel Grid.Row="2"
-                                HorizontalAlignment="Left"
-                                Background="Transparent">
-                        <TextBlock Grid.Row="1" Margin="0.5 3"
-                             Foreground="White">
-                        Area view:
-                        </TextBlock>
-                        <Canvas Name="canvasRandomizerArea" HorizontalAlignment="Left"
+          <CheckBox Name="checkBoxEnableRandomizer"
+                    Height="16"
+                    Margin="10 0"
+                    Checked="RandomizerStatusChanged"
+                    Unchecked="RandomizerStatusChanged">
+            <TextBlock Padding="0">Enable randomizer</TextBlock>
+          </CheckBox>
+
+          <!-- Tablet area canvas -->
+          <StackPanel Grid.Row="1"
+                      HorizontalAlignment="Center"
+                      Width="740"
+                      Background="Transparent"
+                      Name="stackPanelRandomizerArea">
+            <StackPanel Orientation="Vertical"
+                        Width="300"
+                        Margin="0 10"
+                        Background="Transparent">
+              <StackPanel Orientation="Vertical"
+                          HorizontalAlignment="Center"
+                          Width="260"
+                          Background="Transparent">
+                <TextBlock FontSize="12" FontWeight="Bold"
+                           Name="textRandomizerArea">Current area:</TextBlock>
+                <Canvas Name="canvasRandomizerArea"
+                        Margin="0 3"
                           Width="260"
                           Height="150"
                           Background="Transparent"
                           ClipToBounds="True"
                           Focusable="True">
-                        </Canvas>
+                </Canvas>
 
-                        <!-- Tablet area information -->
-                        <Label Name="labelRandomizerAreaInfo"
-                               Foreground="White"
-                       HorizontalAlignment="Center"
-                       Padding="0"
-                       FontSize="11"
-                       FontWeight="Bold">
-                            ...
-                        </Label>
-                    </StackPanel>
+              </StackPanel>
+              <!-- Tablet area information -->
+              <Label Name="labelRandomizerAreaInfo"
+                         HorizontalAlignment="Center"
+                         Padding="0"
+                         FontSize="11"
+                         FontWeight="Bold">
+                ...
+              </Label>
+            </StackPanel>
+          </StackPanel>
+          <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10 0">
+              <TextBlock FontWeight="Bold" FontSize="13">Randomizer area bounds</TextBlock>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock VerticalAlignment="Center">Minimum:</TextBlock>
+
+                <!-- Randomizer Area Width, minimum -->
+                <GroupBox Header="Width" Height="50" Width="100" Margin="15,0,0,0">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerWidthMin" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">mm</Label>
+                  </Grid>
+                </GroupBox>
+
+                <!-- Randomizer Area Height, minimum -->
+                <GroupBox Header="Height" Height="50" Width="100" Margin="5,0,0,0">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerHeightMin" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">mm</Label>
+                  </Grid>
+                </GroupBox>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock VerticalAlignment="Center">Maximum:</TextBlock>
+
+                <!-- Randomizer Area Width, maximum -->
+                <GroupBox Header="Width" Height="50" Width="100" Margin="15,0,0,0">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerWidthMax" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">mm</Label>
+                  </Grid>
+                </GroupBox>
+
+                <!-- Randomizer Area Height, maximum -->
+                <GroupBox Header="Height" Height="50" Width="100" Margin="5,0,0,0">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerHeightMax" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">mm</Label>
+                  </Grid>
+                </GroupBox>
+              </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10 0">
+              <TextBlock FontWeight="Bold" FontSize="13">Time interval</TextBlock>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <GroupBox Header="Min" Height="50" Width="100">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerTimeMin" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">s</Label>
+                  </Grid>
+                </GroupBox>
+                <GroupBox Header="Max" Height="50" Width="100">
+                  <Grid>
+                    <TextBox Name="textBoxRandomizerTimeMax" TextChanged="RandomizerTextChanged" />
+                    <Label HorizontalAlignment="Right">s</Label>
+                  </Grid>
+                </GroupBox>
+              </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10 0">
+              <TextBlock FontWeight="Bold" FontSize="13">Randomizer strength</TextBlock>
+              <GroupBox Header="Std. dev" Height="50" Width="100" HorizontalAlignment="Left">
+                <Grid>
+                  <TextBox Name="textBoxRandomizerStdDev" TextChanged="RandomizerTextChanged" />
+                  <Label HorizontalAlignment="Right">%</Label>
                 </Grid>
-            </TabItem>
+              </GroupBox>
+            </StackPanel>
+          </StackPanel>
+          <StackPanel Grid.Row="4" Orientation="Vertical" Margin="10">
+            <TextBlock FontWeight="Bold" FontSize="13"  Margin="0 5">Extra options</TextBlock>
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Left">
+              <CheckBox Name="checkBoxRandomizerForceProportions"
+                        Checked="RandomizerForceProportionsChanged"
+                        Unchecked="RandomizerForceProportionsChanged" 
+                        IsChecked="True">
+                <TextBlock Padding="0">Keep proportions for randomized areas</TextBlock>
+              </CheckBox>
+
+              <CheckBox Name="checkBoxDarkMode"
+                        Width="Auto"
+                        Checked="RandomizerDarkModeChanged"
+                        Unchecked="RandomizerDarkModeChanged">
+                <TextBlock Padding="0">Area view dark mode</TextBlock>
+              </CheckBox>
+              <CheckBox Name="checkBoxSecretOption">
+                <TextBlock Padding="0">This box does nothing</TextBlock>
+              </CheckBox>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </TabItem>
 
     </TabControl>
 
@@ -1493,14 +1597,6 @@
                 ToolTip="Restarts the TabletDriverService">
           Restart Driver
         </Button>
-          
-        <Button Name="buttonRestartRandomizer" 
-                Margin="0,5"
-                Padding="10,5"
-                Click="RestartRandomizerClick"
-                ToolTip="Restarts the TabletRandomizerService">
-          Restart Randomizer
-        </Button>
 
         <!-- Automatic restart -->
         <CheckBox Name="checkBoxAutomaticRestart" Margin="5,5,5,5" 
@@ -1517,7 +1613,7 @@
                   ToolTip="Starts and hides the TabletDriverGUI at Windows startup">
           Run at Windows startup
         </CheckBox>
-        
+
       </StackPanel>
     </Grid>
 

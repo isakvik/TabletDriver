@@ -32,6 +32,17 @@ namespace TabletDriverGUI
         public OutputPositioning Positioning;
         public OutputModes Mode;
 
+        public double RandomMinWidth;
+        public double RandomMinHeight;
+        public double RandomMaxWidth;
+        public double RandomMaxHeight;
+
+        public double RandomTimestepMin;
+        public double RandomTimestepMax;
+        public double RandomStrength;
+        public bool RandomForceProportions;
+        public bool RandomDarkMode;
+
         public enum OutputPositioning
         {
             Absolute = 0,
@@ -242,6 +253,18 @@ namespace TabletDriverGUI
 
             DebuggingEnabled = false;
             DeveloperMode = false;
+
+            // randomizer settings
+            RandomMinWidth = AreaRandomizer.areaBoundsMin.Width;
+            RandomMinHeight = AreaRandomizer.areaBoundsMin.Height;
+            RandomMaxWidth = AreaRandomizer.areaBoundsMax.Width;
+            RandomMaxHeight = AreaRandomizer.areaBoundsMax.Height;
+
+            RandomTimestepMin = AreaRandomizer.timestepMin / 1000;
+            RandomTimestepMax = AreaRandomizer.timestepMax / 1000;
+            RandomStrength = AreaRandomizer.areaChangeStdDev * 100;
+            RandomForceProportions = AreaRandomizer.forceProportions;
+            RandomDarkMode = false;
         }
 
 

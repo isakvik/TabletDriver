@@ -9,20 +9,24 @@ namespace TabletDriverGUI
 {
     public class AreaRandomizer
     {
-        // Load configuration
         Configuration config;
         Random rng = new Random();
         Thread CalculateAreaThread;
         TabletDriver driver;
-
-        Area minimumArea;
-        Area maximumArea;
 
         public Area initialArea;
         public Area currentArea;
         long startTime;
 
         public bool run = false;
+
+        // configurable settings
+        public static int timestepMin = 15000;
+        public static int timestepMax = 30000;
+        public static Area areaBoundsMin = new Area(36, 26.30, 0, 0);
+        public static Area areaBoundsMax = new Area(115.555555555, 80, 0, 0);
+        public static double areaChangeStdDev = 0.1;
+        public static bool forceProportions = true;
 
         public AreaRandomizer()
         {
@@ -37,8 +41,6 @@ namespace TabletDriverGUI
             {
                 initialArea = new Area(config.TabletAreas?[0]);
                 currentArea = new Area(initialArea);
-                minimumArea = initialArea * AREA_MULTIPLIER_MIN;
-                maximumArea = AREA_MAXIMUM_BOUNDS;
                 //maximumArea = config.TabletFullArea;
             }
         }
@@ -76,7 +78,7 @@ namespace TabletDriverGUI
             {
                 do
                 {
-                    int nextAreaTime = rng.Next(0, TIMESTEP_MAX - TIMESTEP_MIN) + TIMESTEP_MIN;
+                    int nextAreaTime = rng.Next(0, timestepMax - timestepMin) + timestepMin;
                     long deltaTime = DateTimeOffset.Now.ToUnixTimeMilliseconds() - startTime;
 
                     Area newArea = CalculateNewArea(deltaTime);
@@ -106,38 +108,52 @@ namespace TabletDriverGUI
                 Utils.GetNumberString(area.Y));
         }
 
+        
+
 
         //
         // Math section
         //
 
-        // move to own configuration tab eventually...
-        const int TIMESTEP_MIN = 150;
-        const int TIMESTEP_MAX = 300;
-        const double AREA_MULTIPLIER_MIN = 0.5;
-        Area AREA_MAXIMUM_BOUNDS = new Area(115.555555555, 80, 0, 0);
-        const double AREA_CHANGE_STD_DEV = 0.1;
 
         private Area CalculateNewArea(long deltaTime)
         {
-            double newWidth;
-            double newHeight;
+            double newWidth = -1;
+            double newHeight = -1;
+
+            double setWidth = -1;
+            double setHeight = -1;
             do
             {
-                double variance = NextGaussian(0, AREA_CHANGE_STD_DEV);
-                newWidth = currentArea.Width + initialArea.Width * variance;
-                newHeight = currentArea.Height + initialArea.Height * variance;
+                if (forceProportions)
+                {
+                    double variance = NextGaussian(0, areaChangeStdDev);
+                    newWidth = currentArea.Width + initialArea.Width * variance;
+                    newHeight = currentArea.Height + initialArea.Height * variance;
+                }
+                else
+                {
+                    if (setWidth < areaBoundsMin.Width || setWidth > areaBoundsMax.Width)
+                    {
+                        setWidth = newWidth = currentArea.Width + initialArea.Width * NextGaussian(0, areaChangeStdDev);
+                    }
 
+                    if (setHeight < areaBoundsMin.Height || setHeight > areaBoundsMax.Height)
+                    {
+                        setHeight = newHeight = currentArea.Height + initialArea.Height * NextGaussian(0, areaChangeStdDev);
+                    }
+                }
             }
-            while (newWidth < minimumArea.Width || newWidth > maximumArea.Width
-                || newHeight < minimumArea.Height || newHeight > maximumArea.Height);
+            while (newWidth < areaBoundsMin.Width || newWidth > areaBoundsMax.Width
+                || newHeight < areaBoundsMin.Height || newHeight > areaBoundsMax.Height);
 
             double newX = initialArea.X;
             double newY = initialArea.Y;
 
-            // TODO size bounds checking
-            if (newX < newWidth / 2) newX = newWidth / 2;
-            if (newY < newHeight / 2) newY = newHeight / 2;
+            if (newX < newWidth / 2) 
+                newX = newWidth / 2;
+            if (newY < newHeight / 2) 
+                newY = newHeight / 2;
             Area newArea = new Area(newWidth, newHeight, newX, newY);
             return newArea;
         }

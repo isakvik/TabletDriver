@@ -21,12 +21,44 @@ namespace TabletDriverGUI
 
         private void RandomizerStatusChanged(object sender, RoutedEventArgs e)
         {
+            if (isLoadingSettings) return;
+
             if (!randomizer.run && (bool)checkBoxEnableRandomizer.IsChecked)
                 randomizer.Start();
-            else if (randomizer.run)
+            else
                 randomizer.Stop();
         }
 
+        private void RandomizerForceProportionsChanged(object sender, RoutedEventArgs e)
+        {
+            AreaRandomizer.forceProportions = (bool)checkBoxRandomizerForceProportions.IsChecked;
+        }
+
+        private void RandomizerDarkModeChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateRandomizerDarkModeElements((bool)checkBoxDarkMode.IsChecked);
+        }
+
+
+        private void RandomizerTextChanged(object sender, RoutedEventArgs e)
+        {
+            if (Utils.ParseNumber(textBoxRandomizerWidthMin.Text, out double value))
+                AreaRandomizer.areaBoundsMin.Width = value;
+            if (Utils.ParseNumber(textBoxRandomizerHeightMin.Text, out value))
+                AreaRandomizer.areaBoundsMin.Height = value;
+            if (Utils.ParseNumber(textBoxRandomizerWidthMax.Text, out value))
+                AreaRandomizer.areaBoundsMax.Width = value;
+            if (Utils.ParseNumber(textBoxRandomizerHeightMax.Text, out value))
+                AreaRandomizer.areaBoundsMax.Height = value;
+            if (Utils.ParseNumber(textBoxRandomizerTimeMin.Text, out value))
+                AreaRandomizer.timestepMin = (int)(value * 1000);
+            if (Utils.ParseNumber(textBoxRandomizerTimeMax.Text, out value))
+                AreaRandomizer.timestepMax = (int)(value * 1000);
+            if (Utils.ParseNumber(textBoxRandomizerStdDev.Text, out value))
+                AreaRandomizer.areaChangeStdDev = value / 100.0;
+
+            UpdateSettingsToConfiguration();
+        }
 
         //
         // Area update timer tick (randomizer)
@@ -39,18 +71,6 @@ namespace TabletDriverGUI
                 UpdateRandomizerAreaInformation();
             }
         }
-
-
-        //
-        // Restart Randomizer button click
-        //
-        private void RestartRandomizerClick(object sender, RoutedEventArgs e)
-        {
-            if (randomizer.run)
-                randomizer.Stop();
-            randomizer.Start();
-        }
-
 
 
         void UpdateRandomizerAreaCanvas()
@@ -137,5 +157,33 @@ namespace TabletDriverGUI
                 Utils.GetNumberString(config.SelectedScreenArea.Height / config.SelectedTabletArea.Height, "0.0") + " px/mm"*/;
         }
 
+        void UpdateRandomizerDarkModeElements(bool darkmodeEnabled)
+        {
+            if (darkmodeEnabled)
+            {
+                stackPanelRandomizerArea.Background = Brushes.Black;
+
+                textRandomizerArea.Foreground = Brushes.White;
+                polygonRandomizerTabletFullArea.Stroke = new SolidColorBrush(Color.FromRgb(155,155,155));
+                polygonRandomizerTabletArea.Stroke = Brushes.White;
+                polygonRandomizerAreaArrow.Fill = new SolidColorBrush(Color.FromArgb(50, 235, 235, 235));
+                labelRandomizerAreaInfo.Foreground = Brushes.White;
+            }
+            else
+            {
+                stackPanelRandomizerArea.Background = Brushes.Transparent;
+
+                textRandomizerArea.Foreground = Brushes.Black;
+                polygonRandomizerTabletFullArea.Stroke = new SolidColorBrush(Color.FromRgb(100,100,100));
+                polygonRandomizerTabletArea.Stroke = Brushes.Black;
+                polygonRandomizerAreaArrow.Fill = new SolidColorBrush(Color.FromArgb(50, 20, 20, 20));
+                labelRandomizerAreaInfo.Foreground = Brushes.Black;
+            }
+            //this.randomizerDarkMode = darkmodeEnabled;
+        }
+
+        //private Polygon polygonRandomizerTabletFullArea;
+        //private Polygon polygonRandomizerTabletArea;
+        //private Polygon polygonRandomizerAreaArrow;
     }
 }
