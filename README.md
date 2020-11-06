@@ -2,7 +2,7 @@
 
 This is a fork of hawku/TabletDriver that over time randomizes your area between some bounds. Includes its own tab in the driver UI.
 
-Should be pretty self-explainatory - click the enable randomizer box and go. If you update settings, it'll take effect while the randomizer is running, so don't worry about it.
+Should be pretty self-explainatory - click the enable randomizer box and go. If you update settings, it'll take effect while the randomizer is running, so don't worry about that. Settings are saved to the configuration and read. There's no data sanitizing done on the input, so be reasonable.
 
 Original readme follows:
 #
